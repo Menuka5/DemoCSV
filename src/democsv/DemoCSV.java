@@ -25,8 +25,8 @@ public class DemoCSV {
 
     public static void DataClear() throws IOException, NullPointerException {
 
-        InputStream in = TestRun.class.getResourceAsStream("/files/Electrical.csv");
-        InputStream in2 = TestRun.class.getResourceAsStream("/files/Electrical.csv");
+        InputStream in = DemoCSV.class.getResourceAsStream("/files/Electrical.csv");
+        InputStream in2 = DemoCSV.class.getResourceAsStream("/files/Electrical.csv");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         BufferedReader read = new BufferedReader(new InputStreamReader(in2));

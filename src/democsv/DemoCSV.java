@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class DemoCSV {
@@ -67,12 +69,16 @@ public class DemoCSV {
             sections.add(new XYSeries(switchNames[i]));
         }
     }
+    
+    private XYDataset createDataset( ){
+        final XYSeriesCollection dataset = new XYSeriesCollection( );
+        
+        return dataset;
+        
+    }
 
     public static void main(String[] args) throws IOException {
         DataClear();
-        for (int i = 0; i < switchNames.length; i++) {
-            System.out.println(switchNames[i]);
-            System.out.println(datastore.get(i));
-        }
+        
     }
 }

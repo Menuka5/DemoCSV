@@ -6,12 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import org.jfree.data.xy.XYSeries;
+
 
 public class DemoCSV {
+
+    public static List<Object> sections = new ArrayList<>();
     public static String[] switchNames = null;
     public static ArrayList<String> time = new ArrayList<>();
     public static ArrayList<ArrayList<String>> datastore = new ArrayList<>();
-    
+
     public static String[] sNames(String[] names) {
         String[] arr = Arrays.copyOfRange(names, 1, names.length);
         return arr;
@@ -27,7 +32,7 @@ public class DemoCSV {
         BufferedReader read = new BufferedReader(new InputStreamReader(in2));
         String line, line2;
         int cnt = 0;
-        
+
         while ((line = reader.readLine()) != null) {
             String[] dataIn = line.split(",");
 
@@ -57,11 +62,12 @@ public class DemoCSV {
             }
             cnt++;
         }
-        
+
+        for (int i = 0; i < switchNames.length; i++) {
+            sections.add(new XYSeries(switchNames[i]));
+        }
     }
 
-    
-    
     public static void main(String[] args) throws IOException {
         DataClear();
         for (int i = 0; i < switchNames.length; i++) {

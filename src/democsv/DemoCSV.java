@@ -1,7 +1,5 @@
 package democsv;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

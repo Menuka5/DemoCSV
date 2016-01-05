@@ -1,15 +1,13 @@
 package FinalTest;
 
 import democsv.DemoCSV;
-import static democsv.DemoCSV.datastore;
 import static democsv.DemoCSV.sNames;
-import static democsv.DemoCSV.sections;
-import static democsv.DemoCSV.switchNames;
-import static democsv.DemoCSV.time;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.Toolkit;
 import java.awt.geom.Ellipse2D;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +27,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -40,7 +39,9 @@ public class ResponseTime {
     public static String[] switchNames = null;
     public static ArrayList<String> time = new ArrayList<>();
     public static ArrayList<ArrayList<String>> datastore = new ArrayList<>();
+    
 //////////////////////////////////////////////////////    
+    
     private static final int N = 600;
     private static final String title = "ResponseTime";
     private static final Random random = new Random();
@@ -85,32 +86,40 @@ public class ResponseTime {
     }
 
     private XYDataset createDataset() {
-        XYSeriesCollection result = new XYSeriesCollection();
+        ArrayList<Object> xystore = new ArrayList<>();
         XYSeries series = new XYSeries("Series 1");
-        for (double x = 0; x < N - 1; x++) {
-            series.add(x, f(x));
+        for (String sn : switchNames) {
+            xystore.add(new XYSeries(sn));
         }
-        series.add(25, 1.75); // outlier
-        result.addSeries(series);
-        return result;
-    }
-
-    private double f(double x) {
-        double y = 0.004 * x + .75;
-        return y + random.nextGaussian() * y / 10;
+        for (int i = 1; i <= switchNames.length; i++) {
+            for (String x : time) {
+                double y = Double.parseDouble(x);
+                ((XYSeries)xystore.get(i-1)).add(y, i);
+            }
+        }
+        
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+        for (Object xy : xystore) {
+            dataset.addSeries((XYSeries)xy);
+        }
+        
+        return dataset;
     }
 
     public void display() {
         JFrame f = new JFrame(title);
+        Toolkit d = f.getToolkit();
+        Dimension wSize = d.getScreenSize();
+        f.setBounds(wSize.width/4, wSize.height/4, wSize.width, wSize.height);
+        
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(createPanel());
-        f.pack();
-        f.setLocationRelativeTo(null);
+
+        RefineryUtilities.centerFrameOnScreen(f);
         f.setVisible(true);
     }
 
     public static void dataTake() throws IOException{
-//        super(applicationTitle);
         InputStream in = DemoCSV.class.getResourceAsStream("/files/Electrical.csv");
         InputStream in2 = DemoCSV.class.getResourceAsStream("/files/Electrical.csv");
 
@@ -129,7 +138,6 @@ public class ResponseTime {
             }
             cnt++;
         }
-//        System.out.println(Arrays.toString(switchNames));
 
         cnt = 0;
 
@@ -138,8 +146,6 @@ public class ResponseTime {
         while (datastore.size() < dsize) {
             datastore.add(new ArrayList<>());
         }
-
-//        System.out.println(datastore.size());
         while ((line2 = read.readLine()) != null) {
             String[] dataIn2 = line2.split(",");
 
@@ -155,19 +161,13 @@ public class ResponseTime {
             sections.add(new XYSeries(sn));
         }
 
-
     }
         
     
     public static void main(String[] args) throws IOException {
         dataTake();
-        System.out.println(switchNames.length);
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                new ResponseTime().display();
-            }
+        EventQueue.invokeLater(() -> {
+            new ResponseTime().display();
         });
     }
 }

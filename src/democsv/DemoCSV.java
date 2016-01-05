@@ -97,11 +97,6 @@ public class DemoCSV extends ApplicationFrame {
 
     private XYDataset createDataset() {
 
-        final XYSeries firefox = new XYSeries("Firefox");
-        firefox.add(1.0, 1.0);
-        firefox.add(2.0, 4.0);
-        firefox.add(3.0, 3.0);
-        
         ArrayList<Object> xystore = new ArrayList<>();
         
         for (String sn : switchNames) {

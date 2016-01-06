@@ -1,4 +1,4 @@
-package FinalTest;
+package FinalTest.FinalSecond;
 
 import democsv.DemoCSV;
 import static democsv.DemoCSV.sNames;
@@ -13,8 +13,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import static java.nio.file.Files.lines;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -39,8 +39,7 @@ public class ResponseTime {
     public static String[] switchNames = null;
     public static ArrayList<String> time = new ArrayList<>();
     public static ArrayList<ArrayList<String>> datastore = new ArrayList<>();
-    
-//////////////////////////////////////////////////////    
+  
     private static final int N = 600;
     private static final String title = "ResponseTime";
     private static final Random random = new Random();
@@ -73,22 +72,49 @@ public class ResponseTime {
         public MyRenderer(boolean lines, boolean shapes, int n) {
 //            super(lines, shapes);
             clut = new ArrayList<Color>(n);
-//            for (int i = 0; i < n; i++) {
-//                clut.add(Color.getHSBColor((float) i / n, 1, 1));
-//            }
-            
-            clut.add(Color.red);
-            clut.add(Color.black);
-            clut.add(Color.white);
-            clut.add(Color.blue);
-            clut.add(Color.yellow);
+            for (int i = 0; i < n; i++) {
+                clut.add(Color.getHSBColor((float) i / n, 1, 1));
+            }
+
+//            clut.add(Color.red);
+//            clut.add(Color.black);
+//            clut.add(Color.white);
+//            clut.add(Color.blue);
+//            clut.add(Color.yellow);
         }
 
+//        @Override
+//        public Paint getItemFillPaint(int row, int column) {
+////            System.out.println(column + " " + row);
+//            for (int i = switchNames.length - 1; i >= 0; i--) {
+//                ArrayList test = (datastore.get(i));
+//                for (int j = 0; j < time.size(); j++) {
+//                    String ts = (datastore.get(i)).get(j);
+//                    System.out.println(ts);
+//                
+//                    if ("falses".equals(ts)) {
+//                        return Color.red;
+//                    }else if("true".equals(ts)){
+//                        System.out.println("Test out yako");
+//                        return Color.yellow;
+//                    }else if("0".equals(ts)){
+//                        return Color.WHITE;
+//                    }else if("1".equals(ts)){
+//                        return Color.GREEN;
+//                    }
+//                    return Color.blue;
+//                }
+//                        
+//            }
+//            return Color.yellow;
+//
+//        }
+
         @Override
-        public Paint getItemFillPaint(int row, int column) {
-            System.out.println(column + " " + row);
-            return clut.get(column);
+        public Paint getItemPaint(int row, int col) {
             
+            //System.out.println(row + " " + col + " " + super.getItemPaint(row, col));
+            return Color.RED;
         }
     }
 
@@ -101,7 +127,7 @@ public class ResponseTime {
             for (String x : time) {
                 double y = Double.parseDouble(x);
                 ((XYSeries) xystore.get(i - 1)).add(y, i);
-                
+
             }
         }
 
@@ -123,7 +149,7 @@ public class ResponseTime {
         f.add(createPanel());
 
         RefineryUtilities.centerFrameOnScreen(f);
-        f.setVisible(true);
+        f.setVisible(false);
     }
 
     public static void dataTake() throws IOException {
@@ -140,6 +166,7 @@ public class ResponseTime {
 
             if (cnt == 0) {
                 switchNames = sNames(dataIn);
+                
             } else if (cnt != 0) {
                 time.add(dataIn[0]);
             }
@@ -153,13 +180,15 @@ public class ResponseTime {
         while (datastore.size() < dsize) {
             datastore.add(new ArrayList<>());
         }
-        
+
         while ((line2 = read.readLine()) != null) {
             String[] dataIn2 = line2.split(",");
+            System.out.println(Arrays.toString(dataIn2));
 
             if (cnt != 0) {
                 for (int i = 1; i <= dsize; i++) {
                     datastore.get(i - 1).add(dataIn2[i]);
+//                    System.out.print(dataIn2[i]);
                 }
             }
             cnt++;

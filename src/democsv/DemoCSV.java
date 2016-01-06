@@ -71,6 +71,13 @@ public class DemoCSV extends ApplicationFrame {
         for (String sn : switchNames) {
             sections.add(new XYSeries(sn));
         }
+        
+        //////////////
+        for (int i = 0; i < datastore.size(); i++) {
+            for (int j = 0; j < (datastore.get(i)).size(); j++) {
+                System.out.println( (datastore.get(i)).get(j) );
+            }
+        }
         ////////////////////
         JFreeChart xylineChart = ChartFactory.createXYLineChart(
                 chartTitle,

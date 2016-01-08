@@ -1,6 +1,7 @@
-package FinalTest.FinalSecond;
+package FinalTest.FinalThird;
 
 import democsv.DemoCSV;
+import static democsv.DemoCSV.datastore;
 import static democsv.DemoCSV.sNames;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,7 +40,7 @@ public class ResponseTime {
     public static String[] switchNames = null;
     public static ArrayList<String> time = new ArrayList<>();
     public static ArrayList<ArrayList<String>> datastore = new ArrayList<>();
-  
+
     private static final int N = 600;
     private static final String title = "ResponseTime";
     private static final Random random = new Random();
@@ -70,35 +71,50 @@ public class ResponseTime {
         private List<Color> clut;
 
         public MyRenderer(boolean lines, boolean shapes, int n) {
-//            super(lines, shapes);
+
             clut = new ArrayList<Color>(n);
             for (int i = 0; i < n; i++) {
                 clut.add(Color.getHSBColor((float) i / n, 1, 1));
             }
 
-//            clut.add(Color.red);
-//            clut.add(Color.black);
-//            clut.add(Color.white);
-//            clut.add(Color.blue);
-//            clut.add(Color.yellow);
         }
 
         @Override
         public Paint getItemFillPaint(int row, int column) {
-//            System.out.println(column + " " + row);
-            Random rand = new Random();
-            int min =1;
-            int max = 100;
-            for (int i = 0; i < time.size(); i++) {
-                int rn = rand.nextInt((max - min) + 1) + min;
-                if(rn%2 == 0){
-                    return Color.red;
-                }else if(rn%2 != 0){
-                    return Color.yellow;
+
+            for (int i = 0; i < datastore.size(); i++) {
+                for (int j = 0; j < (datastore.get(i)).size(); j++) {
+                    String x = (datastore.get(i)).get(j);
+                    System.out.print(x);
+                    
+                    if ("false".equals(x)) {
+                        return Color.red;
+                    }else if ("true".equals(x)) {
+                        return Color.yellow;
+                    }else if ("0".equals(x)) {
+                        return Color.white;
+                    }else if ("1".equals(x)) {
+                        return Color.blue;
+                    }else if ("2".equals(x)) {
+                        return Color.black;
+                    }
+                    
                 }
             }
             
-            
+            //////////////////
+//            Random rand = new Random();
+//            int min =1;
+//            int max = 100;
+//            for (int i = 0; i < time.size(); i++) {
+//                int rn = rand.nextInt((max - min) + 1) + min;
+//                if(rn%2 == 0){
+//                    return Color.red;
+//                }else if(rn%2 != 0){
+//                    return Color.yellow;
+//                }
+//            }
+
 //            for (int i = switchNames.length - 1; i >= 0; i--) {
 //                ArrayList test = (datastore.get(i));
 //                for (int j = 0; j < time.size(); j++) {
@@ -119,8 +135,8 @@ public class ResponseTime {
 //                }
 //                        
 //            }
-            return Color.yellow;
-
+//            return Color.yellow;
+            return Color.black;
         }
 
 //        @Override
@@ -179,7 +195,7 @@ public class ResponseTime {
 
             if (cnt == 0) {
                 switchNames = sNames(dataIn);
-                
+
             } else if (cnt != 0) {
                 time.add(dataIn[0]);
             }
@@ -196,7 +212,7 @@ public class ResponseTime {
 
         while ((line2 = read.readLine()) != null) {
             String[] dataIn2 = line2.split(",");
-            System.out.println(Arrays.toString(dataIn2));
+//            System.out.println(Arrays.toString(dataIn2));
 
             if (cnt != 0) {
                 for (int i = 1; i <= dsize; i++) {

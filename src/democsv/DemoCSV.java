@@ -46,7 +46,6 @@ public class DemoCSV extends ApplicationFrame {
             }
             cnt++;
         }
-//        System.out.println(Arrays.toString(switchNames));
 
         cnt = 0;
 
@@ -56,7 +55,7 @@ public class DemoCSV extends ApplicationFrame {
             datastore.add(new ArrayList<>());
         }
 
-//        System.out.println(datastore.size());
+
         while ((line2 = read.readLine()) != null) {
             String[] dataIn2 = line2.split(",");
 
@@ -75,7 +74,7 @@ public class DemoCSV extends ApplicationFrame {
         //////////////
         for (int i = 0; i < datastore.size(); i++) {
             for (int j = 0; j < (datastore.get(i)).size(); j++) {
-                System.out.println( (datastore.get(i)).get(j) );
+                System.out.print( (datastore.get(i)).get(j) );
             }
         }
         ////////////////////
@@ -143,6 +142,6 @@ public class DemoCSV extends ApplicationFrame {
 
         test.pack();
         RefineryUtilities.centerFrameOnScreen(test);
-        test.setVisible(true);
+        test.setVisible(false);
     }
 }

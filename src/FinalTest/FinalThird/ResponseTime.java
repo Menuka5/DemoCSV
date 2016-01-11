@@ -1,7 +1,6 @@
 package FinalTest.FinalThird;
 
 import democsv.DemoCSV;
-import static democsv.DemoCSV.datastore;
 import static democsv.DemoCSV.sNames;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -41,12 +39,16 @@ public class ResponseTime {
     public static ArrayList<String> time = new ArrayList<>();
     public static ArrayList<ArrayList<String>> datastore = new ArrayList<>();
 
+    
     private static final int N = 600;
     private static final String title = "ResponseTime";
     private static final Random random = new Random();
     private static final Shape circle = new Ellipse2D.Double(-3, -3, 6, 6);
     private static final Color line = Color.gray;
 
+    public static int lstnum=34;
+    public static int num=0;
+    
     private ChartPanel createPanel() {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 title, "Elapsed Time (secs)", "Switch Names",
@@ -81,26 +83,59 @@ public class ResponseTime {
 
         @Override
         public Paint getItemFillPaint(int row, int column) {
-
-            for (int i = 0; i < datastore.size(); i++) {
-                for (int j = 0; j < (datastore.get(i)).size(); j++) {
-                    String x = (datastore.get(i)).get(j);
-                    System.out.print(x);
-                    
-                    if ("false".equals(x)) {
-                        return Color.red;
-                    }else if ("true".equals(x)) {
-                        return Color.yellow;
-                    }else if ("0".equals(x)) {
-                        return Color.white;
-                    }else if ("1".equals(x)) {
-                        return Color.blue;
-                    }else if ("2".equals(x)) {
-                        return Color.black;
-                    }
-                    
+            int a = time.size();            
+            
+            if(num < a){
+                String x = (datastore.get(lstnum)).get(num);
+                System.out.println(x+" "+num);
+                
+                if(x.equals("false")){
+                    num++;
+                    return Color.red;
+                }else if (x.equals("true")) {
+                    num++;
+                    return Color.yellow;
+                }else if(x.equals("0")){
+                    num++;
+                    return Color.black;
+                }else if (x.equals("1")) {
+                    num++;
+                    return Color.blue;
+                }else if (x.equals("2")) {
+                    num++;
+                    return Color.white;
                 }
+                
+                
+            }else if (num == a) {
+                System.out.println("120 panna");
+                lstnum--;
+                num = 0;
+                System.out.println(lstnum);
             }
+            
+            
+//            for (int i = 0; i < datastore.size(); i++) {
+//                for (int j = 0; j < (datastore.get(i)).size(); j++) {
+//                    String x = (datastore.get(i)).get(j);
+////                    System.out.print(x);
+//                    
+//                    if (null != x) switch (x) {
+//                        case "false":
+//                            return Color.yellow;
+//                        case "true":
+//                            return Color.red;
+//                        case "0":
+//                            return Color.white;
+//                        case "1":
+//                            return Color.blue;
+//                        case "2":
+//                            return Color.black;
+//                    }
+//                    
+//                }
+//            }
+            
             
             //////////////////
 //            Random rand = new Random();
@@ -136,7 +171,7 @@ public class ResponseTime {
 //                        
 //            }
 //            return Color.yellow;
-            return Color.black;
+            return null;
         }
 
 //        @Override
@@ -209,7 +244,7 @@ public class ResponseTime {
         while (datastore.size() < dsize) {
             datastore.add(new ArrayList<>());
         }
-
+        
         while ((line2 = read.readLine()) != null) {
             String[] dataIn2 = line2.split(",");
 //            System.out.println(Arrays.toString(dataIn2));
@@ -234,5 +269,6 @@ public class ResponseTime {
         EventQueue.invokeLater(() -> {
             new ResponseTime().display();
         });
+//        System.out.println("A is " + a);
     }
 }
